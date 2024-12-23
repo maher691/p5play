@@ -1,0 +1,148 @@
+// Setup de base avec p5.js
+let bird;
+let pipes = [];
+let gravity = 0.6;
+let lift = -15;
+
+function setup() {
+  createCanvas(400, 600);
+  bird = new Bird();
+  pipes.push(new Pipe());
+}
+
+function draw() {
+  background(135, 206, 250); // Couleur de fond bleu ciel
+
+  // Affichage et mise à jour de l'oiseau
+  bird.update();
+  bird.show();
+
+  // Gestion des tuyaux
+  for (let i = pipes.length - 1; i >= 0; i--) {
+    pipes[i].show();
+    pipes[i].update();
+
+    // Détection de collision
+    if (pipes[i].hits(bird)) {
+      console.log("Collision!");
+      noLoop(); // Arrête le jeu
+    }
+
+    // Supprimer les tuyaux hors écran
+    if (pipes[i].offscreen()) {
+      pipes.splice(i, 1);
+    }
+  }
+
+  // Ajout de nouveaux tuyaux
+  if (frameCount % 75 == 0) {
+    pipes.push(new Pipe());
+  }
+}
+
+function keyPressed() {
+  if (key == ' ') {
+    bird.up();
+  }
+}
+
+// Classe pour l'oiseau
+class Bird {
+  constructor() {
+    this.y = height / 2;
+    this.x = 64;
+
+    this.gravity = gravity;
+    this.lift = lift;
+    this.velocity = 0;
+  }
+
+  up() {
+    this.velocity += this.lift;
+  }
+
+  update() {
+    this.velocity += this.gravity;
+    this.velocity *= 0.9; // Ajout de frottement
+    this.y += this.velocity;
+
+    if (this.y > height) {
+      this.y = height;
+      this.velocity = 0;
+    }
+
+    if (this.y < 0) {
+      this.y = 0;
+      this.velocity = 0;
+    }
+  }
+
+  show() {
+    fill(255, 255, 0); // Jaune pour l'oiseau
+    ellipse(this.x, this.y, 32, 32);
+  }
+}ChatGPT
+
+
+// Classe pour les tuyaux
+class Pipe {
+  constructor() {
+ChatGPTpython --version
+
+Voici un exemple de fichier index.html simple pour exécuter le code avec p5.js :
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flappy Bird avec p5.js</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
+  <script src="sketch.js" defer></script>
+</head>
+<body>
+</body>
+</html>
+Explications :
+Lien vers la bibliothèque p5.js :
+La ligne <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script> charge la bibliothèque depuis un CDN (Content Delivery Network).
+
+Lien vers le fichier sketch.js :
+La ligne <script src="sketch.js" defer></script> charge ton code JavaScript (le fichier que je t’ai fourni).
+
+Structure minimale HTML :
+Il n’y a rien dans le <body> car p5.js gère tout l’affichage via la fonction setup().
+
+Enregistre ce fichier avec le nom index.html dans le même dossier que sketch.js. Ensuite, ouvre index.html dans ton navigateur pour voir ton jeu en action ! 🚀
+
+    this.top = random(height / 2);
+    this.bottom = random(height / 2);
+    this.x = width;
+    this.w = 40;
+    this.speed = 3;
+  }
+
+  hits(bird) {
+    if (bird.y < this.top || bird.y > height - this.bottom) {
+      if (bird.x > this.x && bird.x < this.x + this.w) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  offscreen() {
+    return this.x < -this.w;
+  }
+
+  update() {
+    this.x -= this.speed;
+  }
+
+  show() {
+    fill(34, 139, 34); // Vert pour les tuyaux
+    rect(this.x, 0, this.w, this.top);
+    rect(this.x, height - this.bottom, this.w, this.bottom);
+  }
+}
+que
